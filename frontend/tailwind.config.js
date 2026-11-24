@@ -9,25 +9,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        dark: {
-          bg: '#0B0F19',
-          surface: '#111827',
-          card: '#161F30',
-          hover: '#1C273C',
-          border: '#1E293B',
-          muted: '#94A3B8',
-          text: '#F8FAFC'
+        // User design tokens
+        primary: '#27272A',
+        secondary: '#FAFAFA',
+        accent: {
+          DEFAULT: '#84CC16',
+          hover: '#65A30D',
+          light: '#A3E635',
+          dark: '#4D7C0F'
         },
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          cyan: '#06b6d4',
-          emerald: '#10b981',
-          violet: '#8b5cf6'
+        canvas: '#F4F4F5',
+        surface: '#FFFFFF',
+        'text-main': '#18181B',
+        'border-main': '#E4E4E7',
+        graphite: {
+          50: '#F4F4F5',
+          100: '#E4E4E7',
+          200: '#D4D4D8',
+          300: '#A1A1AA',
+          400: '#71717A',
+          500: '#52525B',
+          600: '#3F3F46',
+          700: '#27272A',
+          800: '#18181B',
+          900: '#09090B'
+        },
+        lime: {
+          50: '#F7FEE7',
+          100: '#ECFCCB',
+          200: '#D9F99D',
+          300: '#BEF264',
+          400: '#A3E635',
+          500: '#84CC16',
+          600: '#65A30D',
+          700: '#4D7C0F',
+          800: '#3F6212',
+          900: '#365314'
         }
       }
     },

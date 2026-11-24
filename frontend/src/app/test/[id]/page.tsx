@@ -17,7 +17,8 @@ import {
   RotateCcw,
   Sparkles,
   Terminal,
-  Save
+  Save,
+  ShieldCheck
 } from 'lucide-react';
 
 export default function TestTakingPage() {
@@ -193,7 +194,6 @@ export default function TestTakingPage() {
 
     if (lastKeyTimeRef.current) {
       const delta = now - lastKeyTimeRef.current;
-      // If keystrokes are within 2 seconds of each other, count as active typing
       if (delta < 2000) {
         activeTypingMsRef.current += delta;
       }
@@ -201,7 +201,7 @@ export default function TestTakingPage() {
     lastKeyTimeRef.current = now;
   };
 
-  // Autosave function (debounced or on transition)
+  // Autosave function
   const saveAnswer = async (qId: number, currentAns: any) => {
     setSaveStatus('saving');
     try {
@@ -258,7 +258,6 @@ export default function TestTakingPage() {
     });
   };
 
-  // Save code changes on blur
   const handleCodeBlur = () => {
     const currentQ = questions[currentIndex];
     if (currentQ) {
@@ -278,7 +277,6 @@ export default function TestTakingPage() {
     try {
       const res = await api.runCode(sessionId, currentQ.id, userCode);
       setRunResults(res);
-      // Autosave after running
       await saveAnswer(currentQ.id, answers[currentQ.id]);
     } catch (err: any) {
       setRunResults({
@@ -292,7 +290,6 @@ export default function TestTakingPage() {
     }
   };
 
-  // Switch questions
   const goToQuestion = (index: number) => {
     if (index === currentIndex) return;
     const prevQ = questions[currentIndex];
@@ -304,7 +301,6 @@ export default function TestTakingPage() {
     setCurrentIndex(index);
   };
 
-  // Final submission
   const handleSubmitTest = async (auto = false) => {
     if (!auto) {
       const confirmed = window.confirm('Are you sure you want to finish and submit your assessment?');
@@ -329,10 +325,10 @@ export default function TestTakingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#27272A] text-white">
         <div className="flex items-center gap-3">
-          <div className="h-5 w-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
-          <span>Synchronizing test environment...</span>
+          <div className="h-5 w-5 border-2 border-[#84CC16] border-t-transparent rounded-full animate-spin" />
+          <span className="font-semibold text-sm text-zinc-300">Synchronizing assessment sandbox...</span>
         </div>
       </div>
     );
@@ -349,21 +345,23 @@ export default function TestTakingPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col bg-slate-50">
-      {/* Test Control Bar */}
-      <div className="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-16 z-30 shadow-2xs">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col bg-[#F4F4F5] dark:bg-[#121214] text-[#18181B] dark:text-[#FAFAFA] transition-colors duration-150">
+      
+      {/* Test Control Bar - Graphite Background with Electric Lime Accents */}
+      <div className="h-14 bg-[#27272A] border-b border-[#3F3F46] px-6 flex items-center justify-between sticky top-16 z-30 shadow-sm text-white">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-slate-100 text-slate-800 px-3 py-1.5 rounded-lg font-mono font-bold text-sm">
-            <Clock className={`h-4 w-4 ${remainingSec < 300 ? 'text-red-500 animate-pulse' : 'text-indigo-600'}`} />
-            <span className={remainingSec < 300 ? 'text-red-600 font-extrabold' : ''}>
+          {/* Interview Timer in Electric Lime */}
+          <div className="flex items-center gap-2 bg-[#18181B] border border-[#3F3F46] text-[#84CC16] px-3.5 py-1.5 rounded-xl font-mono font-bold text-sm shadow-inner">
+            <Clock className={`h-4 w-4 ${remainingSec < 300 ? 'text-red-400 animate-pulse' : 'text-[#84CC16]'}`} />
+            <span className={remainingSec < 300 ? 'text-red-400 font-extrabold' : ''}>
               {formatTimer(remainingSec)}
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
+            <span className="h-2 w-2 rounded-full bg-[#84CC16] animate-pulse" />
             <span>Auto-save active</span>
-            {lastSavedTime && <span className="text-slate-400">({lastSavedTime})</span>}
+            {lastSavedTime && <span className="text-zinc-400">({lastSavedTime})</span>}
           </div>
         </div>
 
@@ -371,21 +369,22 @@ export default function TestTakingPage() {
           <button
             type="button"
             onClick={() => setFlagged(prev => ({ ...prev, [currentQ.id]: !prev[currentQ.id] }))}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition ${
               isFlagged
-                ? 'bg-amber-50 text-amber-700 border-amber-300'
-                : 'text-slate-600 border-slate-200 hover:bg-slate-50'
+                ? 'bg-amber-950/40 text-amber-300 border-amber-600'
+                : 'text-zinc-300 border-[#3F3F46] hover:bg-[#3F3F46] hover:text-white'
             }`}
           >
-            <Flag className={`h-3.5 w-3.5 ${isFlagged ? 'fill-amber-500 text-amber-500' : ''}`} />
+            <Flag className={`h-3.5 w-3.5 ${isFlagged ? 'fill-amber-400 text-amber-400' : ''}`} />
             {isFlagged ? 'Marked for Review' : 'Mark for Review'}
           </button>
 
+          {/* Electric Lime Primary Submit Button */}
           <button
             type="button"
             disabled={submitting}
             onClick={() => handleSubmitTest(false)}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#84CC16] text-[#18181B] text-xs font-bold hover:bg-[#A3E635] transition shadow-xs disabled:opacity-50"
           >
             <Send className="h-3.5 w-3.5" />
             {submitting ? 'Submitting...' : 'Submit Test'}
@@ -395,33 +394,35 @@ export default function TestTakingPage() {
 
       {/* Main Workspace Layout */}
       <div className="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto p-6 gap-6">
-        {/* Left: Question Content & Interactive Work Area */}
-        <div className="flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-xs p-6 md:p-8">
+        
+        {/* Left: Clean White Question Card */}
+        <div className="flex-1 flex flex-col bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl border border-[#E4E4E7] dark:border-[#2E2E33] shadow-xs p-6 md:p-8">
+          
           {/* Question Metadata Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+          <div className="flex items-center justify-between pb-4 border-b border-[#E4E4E7] dark:border-[#2E2E33] mb-6">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-extrabold text-[#18181B] bg-[#84CC16] px-3 py-1 rounded-lg">
                 Question {currentIndex + 1} of {questions.length}
               </span>
-              <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">
+              <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-300 bg-[#F4F4F5] dark:bg-[#27272A] px-2.5 py-1 rounded-lg border border-[#E4E4E7] dark:border-[#3F3F46]">
                 {currentQ.sector?.name || 'Technical Sector'}
               </span>
-              <span className={`text-xs font-semibold px-2 py-0.5 rounded ${
+              <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${
                 currentQ.difficulty === 'HARD'
-                  ? 'bg-red-50 text-red-600'
+                  ? 'bg-red-50 dark:bg-red-950/40 text-red-600 border-red-200 dark:border-red-900/40'
                   : currentQ.difficulty === 'MEDIUM'
-                  ? 'bg-amber-50 text-amber-600'
-                  : 'bg-emerald-50 text-emerald-600'
+                  ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 border-amber-200 dark:border-amber-900/40'
+                  : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 border-emerald-200 dark:border-emerald-900/40'
               }`}>
                 {currentQ.difficulty} ({currentQ.points} {currentQ.points === 1 ? 'pt' : 'pts'})
               </span>
             </div>
           </div>
 
-          {/* Question Body */}
+          {/* Question Title & Prompt */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-slate-900 mb-3">{currentQ.title}</h2>
-            <div className="text-slate-700 text-sm whitespace-pre-line leading-relaxed">
+            <h2 className="text-xl font-extrabold text-[#18181B] dark:text-white mb-3">{currentQ.title}</h2>
+            <div className="text-zinc-700 dark:text-zinc-300 text-sm whitespace-pre-line leading-relaxed">
               {currentQ.body}
             </div>
           </div>
@@ -432,8 +433,8 @@ export default function TestTakingPage() {
             {(currentQ.type === 'MCQ_SINGLE' || currentQ.type === 'MCQ_MULTI') && (
               <div className="space-y-3 mt-4">
                 {currentQ.type === 'MCQ_MULTI' && (
-                  <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-2">
-                    * Multiple Choice (Select all that apply)
+                  <p className="text-xs font-bold text-[#84CC16] uppercase tracking-wider mb-2">
+                    * Multiple Choice (Select all applicable answers)
                   </p>
                 )}
                 {currentQ.options?.map((opt: any) => {
@@ -446,8 +447,8 @@ export default function TestTakingPage() {
                       onClick={() => handleOptionToggle(opt.id, isMulti)}
                       className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${
                         isChecked
-                          ? 'border-indigo-600 bg-indigo-50/50 ring-1 ring-indigo-500'
-                          : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
+                          ? 'border-[#84CC16] bg-[#84CC16]/10 dark:bg-[#84CC16]/15 ring-1 ring-[#84CC16]'
+                          : 'border-[#E4E4E7] dark:border-[#2E2E33] hover:border-zinc-400 hover:bg-[#FAFAFA] dark:hover:bg-[#27272A]/50'
                       }`}
                     >
                       <input
@@ -455,10 +456,10 @@ export default function TestTakingPage() {
                         name={`question_${currentQ.id}`}
                         checked={isChecked}
                         onChange={() => {}}
-                        className="mt-0.5 h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded border-slate-300"
+                        className="mt-0.5 h-4 w-4 text-[#84CC16] focus:ring-[#84CC16] rounded border-zinc-300 accent-[#84CC16]"
                       />
-                      <div className="flex-1 text-sm text-slate-800">
-                        <span className="font-bold mr-2 text-indigo-700">{opt.label}.</span>
+                      <div className="flex-1 text-sm text-[#18181B] dark:text-zinc-200">
+                        <span className="font-extrabold mr-2 text-[#84CC16]">{opt.label}.</span>
                         {opt.text}
                       </div>
                     </label>
@@ -470,7 +471,7 @@ export default function TestTakingPage() {
             {/* 2. Output Prediction */}
             {currentQ.type === 'OUTPUT' && (
               <div className="mt-4">
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-2">
                   Enter Expected Terminal Output:
                 </label>
                 <input
@@ -479,7 +480,7 @@ export default function TestTakingPage() {
                   onKeyDown={handleKeyDown}
                   onChange={e => handleTextAnswerChange(e.target.value)}
                   placeholder="e.g. 1 4 3 2"
-                  className="w-full p-3 font-mono text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-3.5 font-mono text-sm rounded-xl border border-[#E4E4E7] dark:border-[#2E2E33] bg-[#FAFAFA] dark:bg-[#27272A] text-[#18181B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                 />
               </div>
             )}
@@ -488,43 +489,46 @@ export default function TestTakingPage() {
             {currentQ.type === 'BUGFIX' && (
               <div className="mt-4 flex-1 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-600 uppercase flex items-center gap-1.5">
-                    <Terminal className="h-4 w-4 text-indigo-600" />
-                    Code Editor ({currentQ.bugfixSpec?.language || 'JavaScript'})
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase flex items-center gap-1.5">
+                    <Terminal className="h-4 w-4 text-[#84CC16]" />
+                    Code Sandbox ({currentQ.bugfixSpec?.language || 'JavaScript'})
                   </span>
 
+                  {/* Electric Lime Run Code Button */}
                   <button
                     type="button"
                     disabled={runningCode}
                     onClick={handleRunCode}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition disabled:opacity-50 shadow-xs"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#84CC16] text-[#18181B] text-xs font-bold hover:bg-[#A3E635] transition disabled:opacity-50 shadow-xs"
                   >
-                    <Play className="h-3.5 w-3.5 fill-current" />
+                    <Play className="h-3.5 w-3.5 fill-[#18181B]" />
                     {runningCode ? 'Evaluating Test Cases...' : 'Run Code'}
                   </button>
                 </div>
 
-                {/* Code Textarea with Telemetry Listeners */}
+                {/* Graphite Code Textarea with Telemetry Listeners */}
                 <textarea
                   value={currentAnswer.codeAnswer || ''}
                   onKeyDown={handleKeyDown}
                   onChange={e => handleCodeAnswerChange(e.target.value)}
                   onBlur={handleCodeBlur}
-                  rows={10}
+                  rows={11}
                   spellCheck={false}
-                  placeholder="// Type or paste your solution here..."
-                  className="w-full p-4 font-mono text-sm bg-slate-900 text-slate-100 rounded-xl border border-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed resize-y"
+                  placeholder="// Implement bug-fix solution here..."
+                  className="w-full p-4 font-mono text-sm bg-[#27272A] text-[#FAFAFA] rounded-xl border border-[#3F3F46] focus:outline-none focus:ring-2 focus:ring-[#84CC16] leading-relaxed resize-y shadow-inner"
                 />
 
                 {/* Test Results Display */}
                 {runResults && (
-                  <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 mt-2">
+                  <div className="p-4 rounded-xl border border-[#E4E4E7] dark:border-[#2E2E33] bg-[#FAFAFA] dark:bg-[#18181B] mt-2">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                      <span className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
                         Visible Test Case Results:
                       </span>
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded ${
-                        runResults.allPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                      <span className={`text-xs font-bold px-2.5 py-0.5 rounded-md ${
+                        runResults.allPassed 
+                          ? 'bg-[#84CC16]/20 text-[#84CC16] border border-[#84CC16]/40' 
+                          : 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400'
                       }`}>
                         Passed {runResults.passedCount} / {runResults.totalTests} tests
                       </span>
@@ -532,23 +536,23 @@ export default function TestTakingPage() {
 
                     <div className="space-y-2">
                       {runResults.testResults?.map((t: any, idx: number) => (
-                        <div key={idx} className="p-3 bg-white rounded-lg border border-slate-200 text-xs">
+                        <div key={idx} className="p-3 bg-white dark:bg-[#27272A] rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] text-xs">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="font-bold text-slate-700">Test Case #{t.testIndex}</span>
+                            <span className="font-bold text-[#18181B] dark:text-white">Test Case #{t.testIndex}</span>
                             {t.passed ? (
-                              <span className="text-emerald-600 font-semibold flex items-center gap-1">
+                              <span className="text-[#84CC16] font-bold flex items-center gap-1">
                                 <CheckCircle className="h-3.5 w-3.5" /> Passed
                               </span>
                             ) : (
-                              <span className="text-red-600 font-semibold flex items-center gap-1">
+                              <span className="text-red-500 font-bold flex items-center gap-1">
                                 <XCircle className="h-3.5 w-3.5" /> Failed
                               </span>
                             )}
                           </div>
-                          <div className="font-mono text-slate-600">
-                            <div>Input: <span className="text-slate-900">{t.input}</span></div>
-                            <div>Expected: <span className="text-slate-900">{t.expected}</span></div>
-                            <div>Actual: <span className={t.passed ? 'text-emerald-700 font-medium' : 'text-red-600 font-medium'}>{t.actual}</span></div>
+                          <div className="font-mono text-zinc-600 dark:text-zinc-400 space-y-0.5">
+                            <div>Input: <span className="text-[#18181B] dark:text-zinc-200">{t.input}</span></div>
+                            <div>Expected: <span className="text-[#18181B] dark:text-zinc-200">{t.expected}</span></div>
+                            <div>Actual: <span className={t.passed ? 'text-[#84CC16] font-bold' : 'text-red-500 font-bold'}>{t.actual}</span></div>
                           </div>
                         </div>
                       ))}
@@ -559,13 +563,13 @@ export default function TestTakingPage() {
             )}
           </div>
 
-          {/* Navigation Buttons */}
-          <div className="flex items-center justify-between pt-6 border-t border-slate-100 mt-8">
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-between pt-6 border-t border-[#E4E4E7] dark:border-[#2E2E33] mt-8">
             <button
               type="button"
               disabled={currentIndex === 0}
               onClick={() => goToQuestion(currentIndex - 1)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition disabled:opacity-30"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] text-zinc-700 dark:text-zinc-200 text-xs font-semibold hover:border-[#84CC16] hover:text-[#84CC16] transition disabled:opacity-30"
             >
               <ArrowLeft className="h-4 w-4" /> Previous
             </button>
@@ -574,16 +578,16 @@ export default function TestTakingPage() {
               type="button"
               disabled={currentIndex === questions.length - 1}
               onClick={() => goToQuestion(currentIndex + 1)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition disabled:opacity-30 shadow-xs"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#84CC16] text-[#18181B] text-xs font-bold hover:bg-[#A3E635] transition disabled:opacity-30 shadow-xs"
             >
               Next <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {/* Right: Question Navigation Palette */}
-        <div className="w-full md:w-80 bg-white rounded-2xl border border-slate-200 shadow-xs p-6 flex flex-col h-fit">
-          <h3 className="font-bold text-slate-900 text-sm mb-4">Question Overview</h3>
+        {/* Right: Question Navigation Palette Card */}
+        <div className="w-full md:w-80 bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl border border-[#E4E4E7] dark:border-[#2E2E33] shadow-xs p-6 flex flex-col h-fit">
+          <h3 className="font-bold text-[#18181B] dark:text-white text-sm mb-4">Question Overview</h3>
 
           <div className="grid grid-cols-5 gap-2 mb-6">
             {questions.map((q, idx) => {
@@ -595,13 +599,13 @@ export default function TestTakingPage() {
               const isFlag = !!flagged[q.id];
               const isCurrent = currentIndex === idx;
 
-              let btnClass = 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100';
+              let btnClass = 'border-[#E4E4E7] dark:border-[#3F3F46] bg-[#F4F4F5] dark:bg-[#27272A] text-zinc-700 dark:text-zinc-300 hover:bg-[#E4E4E7]';
               if (isCurrent) {
-                btnClass = 'ring-2 ring-indigo-600 border-indigo-600 bg-white text-indigo-700 font-bold';
+                btnClass = 'ring-2 ring-[#84CC16] border-[#84CC16] bg-[#27272A] text-[#84CC16] font-black shadow-xs';
               } else if (isFlag) {
-                btnClass = 'bg-amber-100 text-amber-800 border-amber-300 font-semibold';
+                btnClass = 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border-amber-300 font-semibold';
               } else if (isAnswered) {
-                btnClass = 'bg-indigo-600 text-white border-indigo-600 font-semibold';
+                btnClass = 'bg-[#84CC16] text-[#18181B] border-[#84CC16] font-bold shadow-xs';
               }
 
               return (
@@ -609,53 +613,56 @@ export default function TestTakingPage() {
                   key={q.id}
                   type="button"
                   onClick={() => goToQuestion(idx)}
-                  className={`h-10 rounded-lg border text-xs flex items-center justify-center transition relative ${btnClass}`}
+                  className={`h-10 rounded-xl border text-xs flex items-center justify-center transition relative ${btnClass}`}
                 >
                   {idx + 1}
-                  {isFlag && <span className="absolute top-1 right-1 h-1.5 w-1.5 rounded-full bg-amber-600" />}
+                  {isFlag && <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-amber-500" />}
                 </button>
               );
             })}
           </div>
 
-          <div className="text-xs space-y-2 border-t border-slate-100 pt-4 text-slate-600">
+          <div className="text-xs space-y-2 border-t border-[#E4E4E7] dark:border-[#2E2E33] pt-4 text-zinc-600 dark:text-zinc-400">
             <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded bg-indigo-600 inline-block" />
+              <span className="h-3 w-3 rounded-md bg-[#84CC16] inline-block" />
               <span>Answered</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded bg-amber-100 border border-amber-300 inline-block" />
+              <span className="h-3 w-3 rounded-md bg-amber-100 border border-amber-300 inline-block" />
               <span>Marked for Review</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded bg-slate-100 border border-slate-200 inline-block" />
+              <span className="h-3 w-3 rounded-md bg-[#F4F4F5] dark:bg-[#27272A] border border-[#E4E4E7] dark:border-[#3F3F46] inline-block" />
               <span>Unanswered</span>
             </div>
           </div>
 
-          {/* Telemetry Proctoring Status */}
-          <div className="mt-8 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500">
-            <div className="font-semibold text-slate-700 mb-1">Integrity Telemetry</div>
-            <div>Tab switches detected: <span className="font-bold text-slate-800">{tabSwitches}</span></div>
+          {/* Integrity Proctoring Status Card */}
+          <div className="mt-8 p-3.5 rounded-xl bg-[#F4F4F5] dark:bg-[#27272A] border border-[#E4E4E7] dark:border-[#3F3F46] text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="font-bold text-[#18181B] dark:text-white mb-1 flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4 text-[#84CC16]" />
+              Integrity Telemetry
+            </div>
+            <div>Tab switches recorded: <span className="font-bold text-[#84CC16]">{tabSwitches}</span></div>
           </div>
         </div>
       </div>
 
       {/* Tab Switch Warning Modal */}
       {showWarningModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 text-center border border-slate-200 shadow-xl">
-            <div className="h-12 w-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl max-w-sm w-full p-6 text-center border border-[#E4E4E7] dark:border-[#2E2E33] shadow-xl text-[#18181B] dark:text-white">
+            <div className="h-12 w-12 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4">
               <AlertTriangle className="h-6 w-6" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">Proctoring Notice</h3>
-            <p className="text-xs text-slate-600 mb-6">
+            <h3 className="font-bold text-lg mb-2">Proctoring Notice</h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-6 leading-relaxed">
               You navigated away or switched windows. This event has been recorded in your evaluation log ({tabSwitches} switches recorded). Repeated switches may invalidate your assessment.
             </p>
             <button
               type="button"
               onClick={() => setShowWarningModal(false)}
-              className="w-full py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-semibold hover:bg-indigo-700 transition"
+              className="w-full py-2.5 px-4 bg-[#84CC16] text-[#18181B] rounded-xl text-xs font-bold hover:bg-[#A3E635] transition shadow-xs"
             >
               Return to Test
             </button>

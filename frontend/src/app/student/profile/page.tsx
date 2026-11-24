@@ -16,7 +16,8 @@ import {
   Award,
   Layers,
   Sparkles,
-  ShieldCheck
+  ShieldCheck,
+  ChevronRight
 } from 'lucide-react';
 
 export default function StudentProfilePage() {
@@ -102,36 +103,37 @@ export default function StudentProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 dark:bg-[#0B0F19]">
-        <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 text-sm">
-          <div className="h-5 w-5 border-2 border-indigo-600 dark:border-cyan-400 border-t-transparent rounded-full animate-spin" />
-          Loading student profile...
+      <div className="min-h-screen flex items-center justify-center bg-[#F4F4F5] dark:bg-[#121214]">
+        <div className="flex items-center gap-3 text-zinc-500 text-sm">
+          <div className="h-5 w-5 border-2 border-[#84CC16] border-t-transparent rounded-full animate-spin" />
+          Loading candidate profile...
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-50 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-10 px-4 sm:px-6 transition-colors duration-150">
-      <div className="max-w-3xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-[#F4F4F5] dark:bg-[#121214] text-[#18181B] dark:text-[#FAFAFA] py-10 px-4 sm:px-8 transition-colors duration-150">
+      <div className="max-w-4xl mx-auto space-y-6">
+        
+        {/* Header Banner */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 text-indigo-700 dark:text-cyan-400 text-xs font-semibold mb-2 shadow-xs">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#27272A] border border-[#3F3F46] text-[#84CC16] text-xs font-bold mb-2 shadow-xs">
               <User className="h-3.5 w-3.5" />
               Candidate Profile & Preferences
             </div>
-            <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              My Student Profile
+            <h1 className="text-3xl font-extrabold text-[#18181B] dark:text-white tracking-tight">
+              Candidate Profile
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Manage your candidate information, contact details, and assessment identity.
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+              Manage your personal information, experience tier, and evaluation credentials.
             </p>
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 text-xs font-semibold transition"
+            className="self-start sm:self-auto flex items-center gap-1.5 px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 text-xs font-semibold transition"
           >
             <LogOut className="h-3.5 w-3.5" />
             Sign Out
@@ -139,93 +141,93 @@ export default function StudentProfilePage() {
         </div>
 
         {success && (
-          <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-medium flex items-center gap-2 shadow-xs">
+          <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2 shadow-xs">
             <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span>{success}</span>
           </div>
         )}
 
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 text-xs font-medium flex items-center gap-2 shadow-xs">
+          <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 text-xs font-semibold flex items-center gap-2 shadow-xs">
             <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Profile Card */}
-        <div className="bg-white dark:bg-[#161F30] rounded-2xl border border-slate-200/80 dark:border-slate-800 p-8 shadow-xs">
-          <div className="flex items-center gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 text-white font-extrabold text-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              {student?.name ? student.name[0].toUpperCase() : 'S'}
+        {/* Clean White Profile Card */}
+        <div className="bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl border border-[#E4E4E7] dark:border-[#2E2E33] p-8 shadow-xs">
+          <div className="flex items-center gap-4 pb-6 border-b border-[#E4E4E7] dark:border-[#2E2E33]">
+            <div className="h-16 w-16 rounded-2xl bg-[#27272A] border border-[#3F3F46] text-[#84CC16] font-black text-2xl flex items-center justify-center shadow-sm">
+              {student?.name ? student.name[0].toUpperCase() : 'C'}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">{student?.name}</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{student?.email}</p>
-              <div className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-[11px] font-semibold text-indigo-700 dark:text-cyan-400">
+              <h2 className="text-xl font-extrabold text-[#18181B] dark:text-white">{student?.name}</h2>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{student?.email}</p>
+              <div className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full bg-[#84CC16]/10 border border-[#84CC16]/30 text-[11px] font-bold text-[#84CC16]">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 Verified Candidate Identity
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSave} className="mt-6 space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSave} className="mt-6 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="h-4 w-4 text-slate-400 dark:text-slate-500 absolute left-3 top-3" />
+                  <User className="h-4 w-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 focus:border-indigo-600 dark:focus:border-cyan-500"
+                    className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="h-4 w-4 text-slate-400 dark:text-slate-500 absolute left-3 top-3" />
+                  <Mail className="h-4 w-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="email"
                     disabled
                     value={email}
-                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0e1422]/60 text-slate-500 dark:text-slate-500 cursor-not-allowed"
+                    className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#F4F4F5] dark:bg-[#18181B] text-zinc-500 cursor-not-allowed"
                   />
                 </div>
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 block">Assessment reports are tied to this email.</span>
+                <span className="text-[10px] text-zinc-400 mt-1 block">Assessment reports are tied to this email.</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
                   Phone Number
                 </label>
                 <div className="relative">
-                  <Phone className="h-4 w-4 text-slate-400 dark:text-slate-500 absolute left-3 top-3" />
+                  <Phone className="h-4 w-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="tel"
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 focus:border-indigo-600 dark:focus:border-cyan-500"
+                    className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                  Years of Experience
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Years of Technical Experience
                 </label>
                 <div className="relative">
-                  <Briefcase className="h-4 w-4 text-slate-400 dark:text-slate-500 absolute left-3 top-3" />
+                  <Briefcase className="h-4 w-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="number"
                     step="0.5"
@@ -233,24 +235,25 @@ export default function StudentProfilePage() {
                     max="40"
                     value={experienceYears}
                     onChange={e => setExperienceYears(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 focus:border-indigo-600 dark:focus:border-cyan-500"
+                    className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <div className="pt-6 border-t border-[#E4E4E7] dark:border-[#2E2E33] flex items-center justify-between">
               <Link
                 href="/student/status"
-                className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                className="text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-[#84CC16] flex items-center gap-1"
               >
                 ← View Past Test Results
               </Link>
 
+              {/* Electric Lime Save Button */}
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-xs transition disabled:opacity-50 shadow-md shadow-indigo-500/20"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#84CC16] text-[#18181B] font-bold text-xs hover:bg-[#A3E635] transition disabled:opacity-50 shadow-xs"
               >
                 <Save className="h-4 w-4" />
                 {saving ? 'Saving...' : 'Save Profile Changes'}

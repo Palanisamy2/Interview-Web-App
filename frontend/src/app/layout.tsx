@@ -1,5 +1,6 @@
 import './globals.css';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,28 +14,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
                 const theme = localStorage.getItem('theme');
-                if (theme === 'light') {
-                  document.documentElement.classList.remove('dark');
-                } else {
+                if (theme === 'dark') {
                   document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
                 }
               } catch (_) {}
             `,
           }}
         />
       </head>
-      <body className="bg-slate-50 text-slate-900 dark:bg-[#0B0F19] dark:text-slate-100 antialiased min-h-screen flex flex-col transition-colors duration-150">
-        <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
+      <body className="bg-[#F4F4F5] dark:bg-[#121214] text-[#18181B] dark:text-[#FAFAFA] antialiased min-h-screen transition-colors duration-150">
+        <div className="min-h-screen flex flex-col md:flex-row">
+          <Sidebar />
+          <div className="flex-1 min-w-0 flex flex-col">
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+          </div>
+        </div>
       </body>
     </html>
   );

@@ -14,7 +14,8 @@ import {
   Layers,
   Search,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  Award
 } from 'lucide-react';
 
 export default function AdminInvitesPage() {
@@ -91,178 +92,213 @@ export default function AdminInvitesPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-50 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-10 px-4 sm:px-6 transition-colors duration-150">
+    <div className="min-h-screen bg-[#F4F4F5] dark:bg-[#121214] text-[#18181B] dark:text-[#FAFAFA] py-8 px-4 sm:px-8 transition-colors duration-150">
       <div className="max-w-5xl mx-auto space-y-8">
+        
         {/* Header */}
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 text-indigo-700 dark:text-cyan-400 text-xs font-semibold mb-2 shadow-xs">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#27272A] border border-[#3F3F46] text-[#84CC16] text-xs font-bold mb-2 shadow-xs">
             <MailCheck className="h-3.5 w-3.5" />
             Candidate Assessment Access
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Assessment Invites & Candidate Pipeline
+          <h1 className="text-3xl font-extrabold text-[#18181B] dark:text-white tracking-tight">
+            Generate & Manage Candidate Invitations
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Generate secure single-use test invitation tokens with preset roles and stacks.
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+            Create signed assessment invite links with pre-assigned role tracks and expiry windows.
           </p>
         </div>
 
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 text-xs font-medium flex items-center gap-2 shadow-xs">
-            <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400 shrink-0" />
+          <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 text-sm flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Generate Invitation Form */}
-        <div className="bg-white dark:bg-[#161F30] rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white mb-1">Create Candidate Invitation</h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">Send personalized assessment links with preselected engineering blueprints.</p>
+        {/* Create Invitation Form (Clean White Card) */}
+        <div className="bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl border border-[#E4E4E7] dark:border-[#2E2E33] p-8 shadow-xs">
+          <h2 className="text-lg font-extrabold text-[#18181B] dark:text-white mb-4">
+            Issue New Candidate Assessment Invitation
+          </h2>
 
-          <form onSubmit={handleCreate} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <form onSubmit={handleCreate} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Candidate Email</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Candidate Email *
+                </label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="candidate@example.com"
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 focus:border-indigo-600 dark:focus:border-cyan-500"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Preset Discipline</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Target Role Track
+                </label>
                 <select
                   value={selectedRoleId}
                   onChange={e => handleRoleChange(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                 >
-                  <option value="">(Optional - Candidate chooses)</option>
+                  <option value="">Any Role (Candidate chooses)</option>
                   {roles.map(r => (
                     <option key={r.id} value={r.id}>{r.name}</option>
                   ))}
                 </select>
               </div>
+            </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Preset Stack</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Specific Framework / Stack
+                </label>
                 <select
-                  value={selectedStackId}
                   disabled={!selectedRole || !selectedRole.stacks?.length}
+                  value={selectedStackId}
                   onChange={e => setSelectedStackId(e.target.value ? parseInt(e.target.value, 10) : '')}
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 disabled:bg-slate-50 dark:disabled:bg-[#0e1422]/50 disabled:text-slate-400 dark:disabled:text-slate-600"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                 >
-                  <option value="">(Optional - Candidate chooses)</option>
-                  {selectedRole?.stacks?.map((s: any) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
+                  <option value="">Any Stack (Candidate chooses)</option>
+                  {selectedRole?.stacks?.map((st: any) => (
+                    <option key={st.id} value={st.id}>{st.name}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Valid For (Days)</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Link Validity (Days)
+                </label>
                 <input
                   type="number"
                   min="1"
-                  max="30"
+                  max="60"
                   value={daysValid}
                   onChange={e => setDaysValid(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0e1422] text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-cyan-500/20 focus:border-indigo-600 dark:focus:border-cyan-500"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#E4E4E7] dark:border-[#3F3F46] bg-[#FFFFFF] dark:bg-[#27272A] text-[#18181B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#84CC16]"
                 />
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={creating}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-xs transition disabled:opacity-50 shadow-md shadow-indigo-500/20"
-            >
-              <Send className="h-3.5 w-3.5" />
-              {creating ? 'Generating Token...' : 'Generate Invite Link'}
-            </button>
+            {/* Electric Lime Create Button */}
+            <div className="pt-2 flex justify-end">
+              <button
+                type="submit"
+                disabled={creating}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#84CC16] text-[#18181B] font-bold text-xs hover:bg-[#A3E635] transition disabled:opacity-50 shadow-xs"
+              >
+                <Send className="h-4 w-4" />
+                {creating ? 'Generating Signed Token...' : 'Generate Invitation Link'}
+              </button>
+            </div>
           </form>
 
           {createdUrl && (
-            <div className="mt-5 p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
-              <div className="truncate w-full sm:w-auto">
-                <span className="text-[11px] font-bold text-indigo-700 dark:text-cyan-400 uppercase block">Generated Assessment Link:</span>
-                <span className="text-xs font-mono text-slate-800 dark:text-slate-200 break-all">{createdUrl}</span>
+            <div className="mt-6 p-4 rounded-xl bg-[#27272A] border border-[#3F3F46] text-white">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-[#84CC16] flex items-center gap-1.5">
+                  <CheckCircle className="h-4 w-4 text-[#84CC16]" />
+                  Invitation Successfully Generated:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(createdUrl)}
+                  className="text-xs font-bold text-white hover:text-[#84CC16] flex items-center gap-1 transition"
+                >
+                  <Copy className="h-3.5 w-3.5" />
+                  {copied ? 'Copied Link!' : 'Copy Link'}
+                </button>
               </div>
-              <button
-                onClick={() => copyToClipboard(createdUrl)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white text-xs font-semibold shrink-0 shadow-xs transition"
-              >
-                {copied ? <CheckCircle className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copied ? 'Copied!' : 'Copy Link'}
-              </button>
+              <div className="p-2.5 rounded-lg bg-[#18181B] font-mono text-xs text-zinc-300 break-all select-all">
+                {createdUrl}
+              </div>
             </div>
           )}
         </div>
 
-        {/* Invitations Table */}
-        <div className="bg-white dark:bg-[#161F30] rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white">Active & Past Invitations</h2>
-            <span className="text-xs text-slate-500 dark:text-slate-400">{invites.length} total invitations</span>
+        {/* Existing Invitations Table (Clean White Card) */}
+        <div className="bg-[#FFFFFF] dark:bg-[#1E1E22] rounded-2xl border border-[#E4E4E7] dark:border-[#2E2E33] shadow-xs overflow-hidden">
+          <div className="p-5 border-b border-[#E4E4E7] dark:border-[#2E2E33] flex items-center justify-between">
+            <h3 className="font-extrabold text-base text-[#18181B] dark:text-white">Active Invitations History</h3>
+            <span className="text-xs text-zinc-500">{invites.length} Invitations Generated</span>
           </div>
 
-          {invites.length === 0 ? (
-            <div className="p-12 text-center text-slate-500 dark:text-slate-400 text-xs">
-              No candidate invitations generated yet.
-            </div>
-          ) : (
-            <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
-              {invites.map(inv => {
-                const isUsed = !!inv.usedAt;
-                const isExpired = new Date(inv.expiresAt) < new Date();
-                const inviteUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/register?token=${inv.token}`;
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-[#FAFAFA] dark:bg-[#27272A]/40 border-b border-[#E4E4E7] dark:border-[#2E2E33] text-zinc-500 uppercase font-bold text-[11px]">
+                  <th className="px-6 py-3.5">Candidate Email</th>
+                  <th className="px-6 py-3.5">Assigned Track</th>
+                  <th className="px-6 py-3.5">Status</th>
+                  <th className="px-6 py-3.5">Expires</th>
+                  <th className="px-6 py-3.5 text-right">Invite Link</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#E4E4E7] dark:divide-[#2E2E33] text-zinc-700 dark:text-zinc-300">
+                {invites.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-10 text-center text-zinc-400">
+                      No invitations issued yet.
+                    </td>
+                  </tr>
+                ) : (
+                  invites.map(inv => {
+                    const isUsed = !!inv.used_at;
+                    const isExpired = new Date(inv.expires_at) < new Date();
+                    const fullInviteLink = `${typeof window !== 'undefined' ? window.location.origin : ''}/register?invite=${inv.token}`;
 
-                return (
-                  <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 dark:hover:bg-[#1C273C]/50 transition">
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-slate-900 dark:text-white text-sm">{inv.candidateEmail}</span>
-                        {isUsed ? (
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
-                            Used
-                          </span>
-                        ) : isExpired ? (
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800/60">
-                            Expired
-                          </span>
-                        ) : (
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-50 dark:bg-cyan-950/60 text-blue-700 dark:text-cyan-400 border border-blue-200 dark:border-cyan-800/60">
-                            Active
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex flex-wrap items-center gap-3">
-                        <span>Role: {inv.role?.name || 'Any'}</span>
-                        <span>•</span>
-                        <span>Stack: {inv.stack?.name || 'Any'}</span>
-                        <span>•</span>
-                        <span>Expires: {new Date(inv.expiresAt).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 self-end sm:self-center">
-                      <button
-                        onClick={() => copyToClipboard(inviteUrl)}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-cyan-400 transition"
-                      >
-                        <Copy className="h-3.5 w-3.5" />
-                        Copy URL
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                    return (
+                      <tr key={inv.id} className="hover:bg-[#FAFAFA] dark:hover:bg-[#27272A]/40 transition">
+                        <td className="px-6 py-4 font-semibold text-[#18181B] dark:text-white">
+                          {inv.email}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="font-semibold">{inv.role?.name || 'Any Role'}</span>
+                          {inv.stack && <span className="text-[#84CC16] font-bold ml-1">({inv.stack.name})</span>}
+                        </td>
+                        <td className="px-6 py-4">
+                          {isUsed ? (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#84CC16]/15 text-[#84CC16] border border-[#84CC16]/30">
+                              Completed
+                            </span>
+                          ) : isExpired ? (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
+                              Expired
+                            </span>
+                          ) : (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                              Active
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 text-zinc-500 font-medium">
+                          {new Date(inv.expires_at).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(fullInviteLink)}
+                            className="inline-flex items-center gap-1 text-[#84CC16] hover:underline font-bold"
+                          >
+                            <Copy className="h-3 w-3" />
+                            Copy
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

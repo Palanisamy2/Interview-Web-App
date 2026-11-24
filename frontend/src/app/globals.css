@@ -3,18 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 15, 23, 42;
-  --background-rgb: 248, 250, 252;
+  --canvas: #F4F4F5;
+  --surface: #FFFFFF;
+  --text-main: #18181B;
+  --border-main: #E4E4E7;
+  --primary: #27272A;
+  --accent: #84CC16;
 }
 
 .dark {
-  --foreground-rgb: 248, 250, 252;
-  --background-rgb: 11, 15, 25;
+  --canvas: #121214;
+  --surface: #1E1E22;
+  --text-main: #FAFAFA;
+  --border-main: #2E2E33;
+  --primary: #FAFAFA;
+  --accent: #84CC16;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background-color: rgb(var(--background-rgb));
+  background-color: var(--canvas);
+  color: var(--text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   min-height: 100vh;
 }
@@ -28,104 +36,47 @@ body {
   background: transparent;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #27272a;
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3f3f46;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d4d4d8;
   border-radius: 9999px;
 }
 
-/* Comprehensive Dark Mode Surface & Text Layering */
-.dark body {
-  background-color: #0B0F19;
-  color: #F8FAFC;
+/* Electric Lime selection styling */
+::selection {
+  background-color: #84CC16;
+  color: #18181B;
 }
 
-.dark .bg-white {
-  background-color: #161F30 !important;
+/* Global button and accent utility */
+.btn-lime {
+  background-color: #84CC16;
+  color: #18181B;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+.btn-lime:hover {
+  background-color: #65A30D;
+  color: #FFFFFF;
 }
 
-.dark .bg-slate-50 {
-  background-color: #0B0F19 !important;
+.badge-lime {
+  background-color: #F7FEE7;
+  color: #3F6212;
+  border: 1px solid #D9F99D;
+}
+.dark .badge-lime {
+  background-color: rgba(132, 204, 22, 0.15);
+  color: #A3E635;
+  border: 1px solid rgba(132, 204, 22, 0.3);
 }
 
-.dark .bg-slate-100 {
-  background-color: #1E293B !important;
-}
-
-.dark .border-slate-200,
-.dark .border-slate-300 {
-  border-color: #1E293B !important;
-}
-
-.dark .border-slate-100 {
-  border-color: #1E293B !important;
-}
-
-.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
-.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #1E293B !important;
-}
-
-.dark .text-slate-900 {
-  color: #F8FAFC !important;
-}
-
-.dark .text-slate-800 {
-  color: #E2E8F0 !important;
-}
-
-.dark .text-slate-700 {
-  color: #CBD5E1 !important;
-}
-
-.dark .text-slate-600 {
-  color: #94A3B8 !important;
-}
-
-.dark .text-slate-500 {
-  color: #94A3B8 !important;
-}
-
-/* Form inputs in Dark Mode */
-.dark input:not([type="checkbox"]):not([type="radio"]),
-.dark select,
-.dark textarea {
-  background-color: #0E1422 !important;
-  border-color: #1E293B !important;
-  color: #F8FAFC !important;
-}
-
-.dark input:disabled {
-  background-color: #131A2A !important;
-  color: #64748B !important;
-}
-
-.dark input::placeholder,
-.dark textarea::placeholder {
-  color: #64748B !important;
-}
-
-/* Badges & Modals */
-.dark .bg-indigo-50 {
-  background-color: rgba(99, 102, 241, 0.15) !important;
-  border-color: rgba(99, 102, 241, 0.3) !important;
-  color: #38bdf8 !important;
-}
-
-.dark .text-indigo-600,
-.dark .text-indigo-700 {
-  color: #38bdf8 !important;
-}
-
-.dark .hover\:bg-slate-50:hover {
-  background-color: #1C273C !important;
-}
-
-.dark .hover\:bg-slate-100:hover {
-  background-color: #1E293B !important;
+.border-lime-active {
+  border-color: #84CC16 !important;
+  box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.25);
 }
