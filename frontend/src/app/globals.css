@@ -7,6 +7,11 @@
   --background-rgb: 248, 250, 252;
 }
 
+.dark {
+  --foreground-rgb: 248, 250, 252;
+  --background-rgb: 11, 15, 25;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-rgb));
@@ -14,3 +19,113 @@ body {
   min-height: 100vh;
 }
 
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+/* Comprehensive Dark Mode Surface & Text Layering */
+.dark body {
+  background-color: #0B0F19;
+  color: #F8FAFC;
+}
+
+.dark .bg-white {
+  background-color: #161F30 !important;
+}
+
+.dark .bg-slate-50 {
+  background-color: #0B0F19 !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1E293B !important;
+}
+
+.dark .border-slate-200,
+.dark .border-slate-300 {
+  border-color: #1E293B !important;
+}
+
+.dark .border-slate-100 {
+  border-color: #1E293B !important;
+}
+
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1E293B !important;
+}
+
+.dark .text-slate-900 {
+  color: #F8FAFC !important;
+}
+
+.dark .text-slate-800 {
+  color: #E2E8F0 !important;
+}
+
+.dark .text-slate-700 {
+  color: #CBD5E1 !important;
+}
+
+.dark .text-slate-600 {
+  color: #94A3B8 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+/* Form inputs in Dark Mode */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #0E1422 !important;
+  border-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+.dark input:disabled {
+  background-color: #131A2A !important;
+  color: #64748B !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Badges & Modals */
+.dark .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: #38bdf8 !important;
+}
+
+.dark .text-indigo-600,
+.dark .text-indigo-700 {
+  color: #38bdf8 !important;
+}
+
+.dark .hover\:bg-slate-50:hover {
+  background-color: #1C273C !important;
+}
+
+.dark .hover\:bg-slate-100:hover {
+  background-color: #1E293B !important;
+}

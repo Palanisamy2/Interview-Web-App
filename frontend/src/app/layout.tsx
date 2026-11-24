@@ -13,8 +13,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+    <html lang="en" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="bg-slate-50 text-slate-900 dark:bg-[#0B0F19] dark:text-slate-100 antialiased min-h-screen flex flex-col transition-colors duration-150">
         <Navbar />
         <main className="flex-1">
           {children}
@@ -23,4 +39,3 @@ export default function RootLayout({
     </html>
   );
 }
-
