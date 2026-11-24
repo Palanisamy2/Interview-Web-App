@@ -44,9 +44,10 @@ function RegisterForm() {
 
         if (data.preset && data.preset.roleId && data.preset.stackId) {
           localStorage.setItem('presetSelection', JSON.stringify(data.preset));
+          router.push('/select');
+        } else {
+          router.push('/student/dashboard');
         }
-
-        router.push('/select');
       }
     } catch (err: any) {
       setError(err.message || 'Failed to start assessment. Please check your inputs.');

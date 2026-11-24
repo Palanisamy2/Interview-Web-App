@@ -22,16 +22,16 @@ export default function HomePage() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/register"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition shadow-md shadow-indigo-100"
+            className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition shadow-md shadow-indigo-100 text-sm"
           >
-            Start Candidate Assessment
+            Candidate / Student Portal
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
-            href="/admin/dashboard"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-medium hover:bg-slate-50 transition shadow-xs"
+            href="/admin/login"
+            className="flex items-center gap-2 px-6 py-3.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-bold hover:bg-slate-50 transition shadow-xs text-sm"
           >
-            Open Recruiter Dashboard
+            Recruiter & Admin Portal
           </Link>
         </div>
       </section>

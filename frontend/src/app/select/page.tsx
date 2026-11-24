@@ -234,20 +234,18 @@ export default function SelectRolePage() {
                   key={role.id}
                   type="button"
                   onClick={() => handleRoleSelect(role)}
-                  className={`p-4 rounded-xl border text-left transition-all duration-200 relative group flex flex-col justify-between ${
-                    isSelected
+                  className={`p-4 rounded-xl border text-left transition-all duration-200 relative group flex flex-col justify-between ${isSelected
                       ? 'border-indigo-600 bg-indigo-50/60 ring-2 ring-indigo-500/20 shadow-md'
                       : 'border-slate-200 bg-white hover:border-indigo-200 hover:shadow-sm'
-                  }`}
+                    }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <div
-                        className={`h-9 w-9 rounded-lg flex items-center justify-center transition-colors ${
-                          isSelected
+                        className={`h-9 w-9 rounded-lg flex items-center justify-center transition-colors ${isSelected
                             ? 'bg-indigo-600 text-white shadow-sm'
                             : 'bg-slate-100 text-slate-600 group-hover:bg-indigo-50 group-hover:text-indigo-600'
-                        }`}
+                          }`}
                       >
                         <Icon className="h-4.5 w-4.5" />
                       </div>
@@ -320,20 +318,18 @@ export default function SelectRolePage() {
                       key={stack.id}
                       type="button"
                       onClick={() => setSelectedStackId(stack.id)}
-                      className={`p-4 rounded-xl border text-left transition-all duration-150 flex flex-col justify-between ${
-                        isSelected
+                      className={`p-4 rounded-xl border text-left transition-all duration-150 flex flex-col justify-between ${isSelected
                           ? 'border-indigo-600 bg-indigo-600 text-white shadow-md ring-2 ring-indigo-500/20'
                           : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300 hover:bg-slate-50/70 hover:shadow-sm'
-                      }`}
+                        }`}
                     >
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <span
-                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                              isSelected
+                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${isSelected
                                 ? 'bg-white/20 text-indigo-100'
                                 : 'bg-slate-100 text-slate-600'
-                            }`}
+                              }`}
                           >
                             Verified Blueprint
                           </span>
@@ -349,11 +345,10 @@ export default function SelectRolePage() {
                         {pills.map((pill, idx) => (
                           <span
                             key={idx}
-                            className={`text-[10px] px-2 py-0.5 rounded-md font-medium ${
-                              isSelected
+                            className={`text-[10px] px-2 py-0.5 rounded-md font-medium ${isSelected
                                 ? 'bg-indigo-700/80 text-indigo-100'
                                 : 'bg-slate-100 text-slate-600'
-                            }`}
+                              }`}
                           >
                             {pill}
                           </span>

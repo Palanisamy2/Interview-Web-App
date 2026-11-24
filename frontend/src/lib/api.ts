@@ -49,6 +49,12 @@ export const api = {
     apiRequest(`/sessions/${sessionId}/submit`, { method: 'POST' }),
   getSessionStatus: (sessionId: string) =>
     apiRequest(`/sessions/${sessionId}/status`),
+  getCandidateSessions: (candidateId: string) =>
+    apiRequest(`/sessions/candidate/${candidateId}`),
+  getCandidateProfile: (id: string) =>
+    apiRequest(`/sessions/candidate/${id}/profile`),
+  updateCandidateProfile: (id: string, data: any) =>
+    apiRequest(`/sessions/candidate/${id}/profile`, { method: 'PUT', body: JSON.stringify(data) }),
 
   // Admin
   getDashboardStats: () => apiRequest('/admin/stats'),
@@ -60,6 +66,12 @@ export const api = {
     apiRequest(`/admin/sessions/${sessionId}/report`),
   createInvitation: (data: any) =>
     apiRequest('/admin/invitations', { method: 'POST', body: JSON.stringify(data) }),
+  listInvitations: () =>
+    apiRequest('/admin/invitations'),
+  getProctoringLogs: () =>
+    apiRequest('/admin/proctoring'),
+  listBlueprints: () =>
+    apiRequest('/admin/blueprints'),
   listQuestions: (params?: any) => {
     const query = new URLSearchParams(params || {}).toString();
     return apiRequest(`/admin/questions${query ? `?${query}` : ''}`);
